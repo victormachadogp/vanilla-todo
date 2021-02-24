@@ -3,3 +3,83 @@
   padding: 0px;
   box-sizing: border-box;
 }
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 100vh;
+  max-width: 2000px;
+  margin: 0 auto;
+}
+
+.nav-menu {
+  background-color: #5b9dcb;
+}
+
+.main-content {
+  background-color: #50de61;
+  display: grid;
+  grid-template-rows: 25%;
+}
+
+.image-background {
+  background-color: #de842a;
+}
+
+.user-data {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-photo {
+  width: 33px;
+  height: 33px;
+  background-color: grey;
+  border-radius: 50px;
+}
+
+.user-name {
+  padding: 0px 5px;
+}
+
+@media (max-width: 1024px) {
+  .btn-nav {
+    width: 30px;
+    height: 30px;
+    background-color: indianred;
+    margin: 10px;
+    cursor: pointer;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 0px;
+    height: 100vh;
+    min-width: 250px;
+  }
+
+  .btn-close {
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    background-color: lightblue;
+  }
+}
+
+@media (min-width: 1025px) {
+  .nav-menu {
+    display: block !important;
+  }
+}
