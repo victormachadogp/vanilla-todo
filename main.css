@@ -1,0 +1,147 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 100vh;
+  max-width: 2000px;
+  margin: 0 auto;
+}
+
+.nav-menu {
+  background-color: #5b9dcb;
+}
+
+.main-content {
+  /* background-color: #50de61; */
+  display: grid;
+  grid-template-rows: 25%;
+}
+
+.image-background {
+  background-color: #de842a;
+}
+
+.user-data {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-photo {
+  width: 33px;
+  height: 33px;
+  background-color: grey;
+  border-radius: 50px;
+}
+
+.user-name {
+  padding: 0px 5px;
+}
+.todos-container{
+  width: 90%;
+  max-width: 1430px;
+  margin: auto;
+  min-height: 100%;
+}
+.todo-card{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid #EFEFEF;
+}
+.todo-title-status-container{
+  display: flex;
+  align-items: center;
+}
+.todo-title-status-container img{
+  margin-right: 14px;
+}
+.todo-card img{
+  width: 23px;
+  height: 23px;
+  cursor: pointer;
+}
+.check-on, .highlight-on{
+  display: none;
+}
+.todo-card.completed .check-off, .todo-card.highlighted .highlight-off{
+  display: none;
+}
+.todo-card.completed .check-on, .todo-card.highlighted .highlight-on{
+  display: block;
+}
+.todo-card.completed{
+  text-decoration: line-through;
+  color: #828282;
+}
+.add-todo{
+  position: fixed;
+  bottom: 0;
+  width: 72%;
+  max-width: 1430px;
+  background-color: rgba(142, 198, 231, 0.322);
+  padding: 15px 17px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  color: #515CB5;
+  cursor: pointer;
+}
+.add-todo img{
+  width: 28px;
+  height: 28px;
+  margin-right: 14px;
+}
+
+@media (max-width: 1024px) {
+  .btn-nav {
+    width: 30px;
+    height: 30px;
+    background-color: indianred;
+    margin: 10px;
+    cursor: pointer;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 0px;
+    height: 100vh;
+    min-width: 250px;
+  }
+
+  .btn-close {
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    background-color: lightblue;
+  }
+  .add-todo{
+    width: 90%;
+  }
+}
+
+@media (min-width: 1025px) {
+  .nav-menu {
+    display: block !important;
+  }
+}
