@@ -57,7 +57,7 @@ body {
   max-width: 1430px;
   margin: auto;
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
 }
 .todos-container::-webkit-scrollbar{
   display: none;
