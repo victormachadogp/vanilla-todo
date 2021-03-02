@@ -17,11 +17,13 @@ body {
 }
 
 .nav-menu {
-  background-color: #5b9dcb;
+  background-color: white;
+  box-shadow: 1px 4px 6px 1px #8f8f8f26;
+  z-index: 9999;
+  color: #505050;
 }
 
 .main-content {
-  /* background-color: #50de61; */
   display: grid;
   grid-template-rows: 25%;
 }
@@ -30,11 +32,40 @@ body {
   background-color: #de842a;
 }
 
-.user-data {
+/* NAV LEFT MENU */
+
+.nav-list-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 10px;
+  padding: 14px 19px;
+  cursor: pointer;
+}
+
+.list-text-color {
+  color: #4b92c5;
+}
+
+.nav-list-item:hover {
+  background-color: #f3f9fd;
+}
+
+.nav-item-info {
+  display: flex;
+  align-items: center;
+}
+
+.list-items-remaining {
+  margin-right: 8px;
+}
+
+.nav-highlighted {
+  background-color: #ecf5fa;
+}
+
+.nav-list-icon {
+  display: flex;
+  align-items: center;
 }
 
 .user-info {
@@ -43,16 +74,18 @@ body {
 }
 
 .user-photo {
-  width: 33px;
-  height: 33px;
+  width: 26px;
+  height: 26px;
   background-color: grey;
   border-radius: 50px;
 }
 
-.user-name {
-  padding: 0px 5px;
+.nav-item-text {
+  padding: 0px 10px;
+  font-size: 0.95rem;
 }
-.todos-container{
+
+.todos-container {
   width: 90%;
   max-width: 1430px;
   margin: auto;
@@ -60,41 +93,44 @@ body {
   overflow-y: auto;
   padding-bottom: 85px;
 }
-.todos-container::-webkit-scrollbar{
+.todos-container::-webkit-scrollbar {
   display: none;
 }
-.todo-card{
+.todo-card {
   display: flex;
   justify-content: space-between;
   padding: 20px 0;
-  border-bottom: 1px solid #EFEFEF;
+  border-bottom: 1px solid #efefef;
 }
-.todo-title-status-container{
+.todo-title-status-container {
   display: flex;
   align-items: center;
 }
-.todo-title-status-container img{
+.todo-title-status-container img {
   margin-right: 14px;
 }
-.todo-card img{
+.todo-card img {
   width: 23px;
   height: 23px;
   cursor: pointer;
 }
-.check-on, .highlight-on{
+.check-on,
+.highlight-on {
   display: none;
 }
-.todo-card.completed .check-off, .todo-card.highlighted .highlight-off{
+.todo-card.completed .check-off,
+.todo-card.highlighted .highlight-off {
   display: none;
 }
-.todo-card.completed .check-on, .todo-card.highlighted .highlight-on{
+.todo-card.completed .check-on,
+.todo-card.highlighted .highlight-on {
   display: block;
 }
-.todo-card.completed{
+.todo-card.completed {
   text-decoration: line-through;
   color: #828282;
 }
-.add-todo{
+.add-todo {
   position: fixed;
   bottom: 0;
   width: 72%;
@@ -104,13 +140,17 @@ body {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-  color: #515CB5;
+  color: #515cb5;
   cursor: pointer;
 }
-.add-todo img{
+.add-todo img {
   width: 28px;
   height: 28px;
   margin-right: 14px;
+}
+
+.btn-close {
+  display: none;
 }
 
 @media (max-width: 1024px) {
@@ -135,12 +175,10 @@ body {
   }
 
   .btn-close {
-    width: 30px;
-    height: 30px;
     margin: 10px;
-    background-color: lightblue;
+    display: block;
   }
-  .add-todo{
+  .add-todo {
     width: 90%;
   }
 }
@@ -148,5 +186,6 @@ body {
 @media (min-width: 1025px) {
   .nav-menu {
     display: block !important;
+    padding-top: 35px;
   }
 }
