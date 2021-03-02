@@ -56,7 +56,12 @@ body {
   width: 90%;
   max-width: 1430px;
   margin: auto;
-  min-height: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 85px;
+}
+.todos-container::-webkit-scrollbar{
+  display: none;
 }
 .todo-card{
   display: flex;
@@ -94,7 +99,7 @@ body {
   bottom: 0;
   width: 72%;
   max-width: 1430px;
-  background-color: rgba(142, 198, 231, 0.322);
+  background-color: #d7e1e8;
   padding: 15px 17px;
   margin-bottom: 20px;
   display: flex;
