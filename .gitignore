@@ -1,0 +1,4 @@
+/server/venv
+
+# Python cache files
+**/**.pyc 
