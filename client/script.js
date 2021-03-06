@@ -8,10 +8,10 @@ async function getAllTodos () {
     const todos = await response.json()
 
     todos.map((todo) => {
-        let isCompleted = false
-        let isHighlighted = false
+        let isCompleted = ''
+        let isHighlighted = ''
         if(todo.completed){isCompleted = 'completed'}
-        if(todo.highlight){isHighlighted = 'highlighted'}
+        if(todo.highlighted){isHighlighted = 'highlighted'}
 
         const todoContent = `
             <div id="${todo.id}" class="todo-card ${isCompleted} ${isHighlighted}">
