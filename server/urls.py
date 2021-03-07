@@ -19,4 +19,5 @@ from core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('tasklists/', views.get_tasklists),
+    path('tasklists/<int:tasklist_id>/', views.get_tasklistsid)
 ]
