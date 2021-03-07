@@ -1,1 +1,6 @@
 /server/venv
+
+# Python cache files
+**/**.pyc 
+
+/server/db.sqlite3
