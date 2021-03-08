@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse 
-from .models import Tasklist
 from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
+from .models import Tasklist
+
 
 # Create your views here.
 
 @require_http_methods(["GET","POST"]) 
-def get_tasklists(request):
+def tasklists(request):
     try: 
         tasks = Tasklist.objects.all().values()  
     except Tasklists.DoesNotExist: 
@@ -22,7 +22,7 @@ def get_tasklists(request):
 
 
 @require_http_methods(["PUT","DELETE","GET"])
-def get_tasklistsid(request, tasklist_id):
+def tasklistsid(request, tasklist_id):
     try: 
         tasklist = Tasklist.objects.get(id=tasklist_id)         
     except Tasklist.DoesNotExist: 
