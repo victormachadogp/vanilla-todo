@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.forms.models import model_to_dict
 from .models import Tasklist
-
+import json
 
 # Create your views here.
 
@@ -20,7 +20,6 @@ def tasklists(request):
     else:
         return HttpResponse("POST")    
 
-
 @require_http_methods(["PUT","DELETE","GET"])
 def tasklistsid(request, tasklist_id):
     try: 
@@ -31,7 +30,18 @@ def tasklistsid(request, tasklist_id):
     if request.method == "GET":
         return JsonResponse(model_to_dict(tasklist), safe=False)
     elif request.method == "PUT": 
-        return HttpResponse("PUT")     
+        data = json.loads(request.body) 
+
+        if "title" in data: 
+            tasklist.title = data['title']
+        if "color" in data:  
+            tasklist.color = data['color']
+        if "order" in data:
+            tasklist.order = data['order']  
+
+        tasklist.save() 
+       
+        return HttpResponse(tasklist)     
     else: 
         return HttpResponse("DELETE") 
 
@@ -39,7 +49,7 @@ def tasklistsid(request, tasklist_id):
 # GET /tasklists/ - retorna todas as tasklists -  ✅
 # GET /tasklists/:id/ - retorna apenas uma tasklist ✅ 
 # POST /tasklists/ - cria uma nova tasklist 
-# PUT/PATCH? /tasklists/:id/ - atualiza apenas uma tasklist
+# PUT/PATCH? /tasklists/:id/ - atualiza apenas uma tasklist ✅
 # DELETE /tasklists/:id/ - deleta apenas uma tasklist
 
 # Tasks
