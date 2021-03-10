@@ -39,9 +39,10 @@ def tasklistsid(request, tasklist_id):
         if "order" in data:
             tasklist.order = data['order']  
 
-        tasklist.save() 
+        tasklist.save()
        
-        return HttpResponse(tasklist)     
+        return JsonResponse((model_to_dict(tasklist)),safe=False) 
+         
     else: 
         return HttpResponse("DELETE") 
 
