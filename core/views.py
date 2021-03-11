@@ -4,7 +4,7 @@ from django.views.decorators.http import require_http_methods
 from django.forms.models import model_to_dict
 from .models import Tasklist
 import json
-
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 @require_http_methods(["GET","POST"]) 
@@ -19,7 +19,7 @@ def tasklists(request):
         return JsonResponse(task_list, safe=False)
     else:
         return HttpResponse("POST")    
-
+@csrf_exempt
 @require_http_methods(["PUT","DELETE","GET"])
 def tasklistsid(request, tasklist_id):
     try: 
@@ -29,19 +29,20 @@ def tasklistsid(request, tasklist_id):
 
     if request.method == "GET":
         return JsonResponse(model_to_dict(tasklist), safe=False)
-    elif request.method == "PUT": 
-        data = json.loads(request.body) 
+    elif request.method == "PUT" or request.method == "PATCH":
+        
+        data = json.loads(request.body)
 
-        if "title" in data: 
-            tasklist.title = data['title']
-        if "color" in data:  
-            tasklist.color = data['color']
-        if "order" in data:
-            tasklist.order = data['order']  
+        for f in tasklist._meta.get_fields():
+           if f.name in data.keys():
+               setattr(tasklist, f.name , data[f.name])
 
-        tasklist.save()
-       
-        return JsonResponse((model_to_dict(tasklist)),safe=False) 
+        try:
+            tasklist.save()
+        except: 
+            return HttpResponse('"ERRO INTERNO - REPORTE O ADMINISTRADOR"', status=500) 
+        #return JsonResponse((model_to_dict(tasklist)),safe=False) 
+        return HttpResponse('"OK"', status=200) 
          
     else: 
         return HttpResponse("DELETE") 
@@ -50,7 +51,7 @@ def tasklistsid(request, tasklist_id):
 # GET /tasklists/ - retorna todas as tasklists -  ✅
 # GET /tasklists/:id/ - retorna apenas uma tasklist ✅ 
 # POST /tasklists/ - cria uma nova tasklist 
-# PUT/PATCH? /tasklists/:id/ - atualiza apenas uma tasklist ✅
+# PUT/PATCH /tasklists/:id/ - atualiza apenas uma tasklist ✅
 # DELETE /tasklists/:id/ - deleta apenas uma tasklist
 
 # Tasks
