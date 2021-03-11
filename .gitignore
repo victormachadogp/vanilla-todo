@@ -4,3 +4,4 @@
 **/**.pyc 
 
 /server/db.sqlite3
+.vscode/launch.json
