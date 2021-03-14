@@ -8,7 +8,7 @@ Para criar o ambiente virtual Python, entre na pasta `server` e digite:
 
 Para **ativar** o ambiente virtual, digite:
 
-Obsercacao: O ponto '.' no inicio do comando so deve ser usado em terminais 'bash'.
+Observação: O ponto '.' no inicio do comando so deve ser usado em terminais 'bash'.
 
 #### No Windows:
 >. venv/Scripts/activate
