@@ -1,10 +1,13 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse 
-from django.views.decorators.http import require_http_methods
-from django.forms.models import model_to_dict
-from .models import Tasklist
 import json
+
+from django.db.utils import IntegrityError
+from django.forms.models import model_to_dict
+from django.http import HttpResponse, JsonResponse 
+from django.shortcuts import render
+from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
+
+from .models import Tasklist
 # Create your views here.
 
 @require_http_methods(["GET","POST"]) 
@@ -32,16 +35,12 @@ def tasklistsid(request, tasklist_id):
     elif request.method == "PUT" or request.method == "PATCH":
         
         data = json.loads(request.body)
-
-        for f in tasklist._meta.get_fields():
-           if f.name in data.keys():
-               setattr(tasklist, f.name , data[f.name])
-
+ 
         try:
-            tasklist.save()
-        except: 
-            return HttpResponse('"ERRO INTERNO - REPORTE O ADMINISTRADOR"', status=500) 
-        #return JsonResponse((model_to_dict(tasklist)),safe=False) 
+            Tasklist.objects.filter(id=tasklist_id).update(**data) 
+        except IntegrityError: 
+            return HttpResponse('ERRO - Id é invalido', status=408) 
+       
         return HttpResponse('"OK"', status=200) 
          
     else: 
