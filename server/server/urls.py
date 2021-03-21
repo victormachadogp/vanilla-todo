@@ -18,5 +18,6 @@ from django.urls import path
 from core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('tasklists/', views.get_tasklists),
+    path('tasklists/', views.tasklists),
+    path('tasklists/<int:tasklist_id>/', views.tasklistsid)
 ]
