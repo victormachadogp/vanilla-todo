@@ -38,11 +38,7 @@ def tasklistsid(request, tasklist_id):
 #TASKS
 @require_http_methods(["GET"]) 
 def tasklists_id_tasks(request, tasklist):
-    try:
-        tasks = Task.objects.filter(tasklist=tasklist).values()
-    except Task.DoesNotExist:
-        return JsonResponse({'message': 'There is no task with the requested id'}, status=404)
-    
+    tasks = Task.objects.filter(tasklist=tasklist).values()
     return JsonResponse(list(tasks), safe=False)
 
 # Tasklists
