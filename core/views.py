@@ -43,8 +43,7 @@ def tasklists_id_tasks(request, tasklist):
     except Task.DoesNotExist:
         return JsonResponse({'message': 'There is no task with the requested id'}, status=404)
     
-    if request.method == "GET":
-        return JsonResponse(list(tasks), safe=False)
+    return JsonResponse(list(tasks), safe=False)
 
 # Tasklists
 # GET /tasklists/ - retorna todas as tasklists -  ✅
