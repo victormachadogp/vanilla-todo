@@ -37,8 +37,8 @@ def tasklistsid(request, tasklist_id):
 
 #TASKS
 @require_http_methods(["GET"]) 
-def tasklists_id_tasks(request, tasklist):
-    tasks = Task.objects.filter(tasklist=tasklist).values()
+def tasklists_id_tasks(request, tasklist_id):
+    tasks = Task.objects.filter(tasklist=tasklist_id).values()
     return JsonResponse(list(tasks), safe=False)
 
 # Tasklists
