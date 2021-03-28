@@ -5,10 +5,6 @@
 # Mac/OSX
 .DS_Store
 
-<<<<<<< HEAD
-/server/db.sqlite3
-.vscode/launch.json
-=======
 # Windows
 Thumbs.db
 
@@ -57,4 +53,4 @@ venv/
 ENV/
 env.bak/
 venv.bak/
->>>>>>> master
+
