@@ -39,9 +39,9 @@ def tasklistsid(request, tasklist_id):
         try:
             Tasklist.objects.filter(id=tasklist_id).update(**data) 
         except IntegrityError: 
-            return HttpResponse('ERRO - Id é invalido', status=408) 
+            return HttpResponse('ERRO - Id é invalido', status=404) 
        
-        return HttpResponse('"OK"', status=200) 
+        return HttpResponse('OK', status=200) 
          
     else: 
         return HttpResponse("DELETE") 
