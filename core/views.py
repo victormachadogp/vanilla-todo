@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse 
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
+from django.core import serializers
 from .models import Tasklist, Task
+import sys, json
 
 
 # Create your views here.
-
+@csrf_exempt
 @require_http_methods(["GET","POST"]) 
 def tasklists(request):
     try: 
@@ -20,7 +23,7 @@ def tasklists(request):
     else:
         return HttpResponse("POST")    
 
-
+@csrf_exempt
 @require_http_methods(["PUT","DELETE","GET"])
 def tasklistsid(request, tasklist_id):
     try: 
@@ -36,10 +39,35 @@ def tasklistsid(request, tasklist_id):
         return HttpResponse("DELETE") 
 
 #TASKS
-@require_http_methods(["GET"]) 
+@csrf_exempt
+@require_http_methods(["GET","POST"]) 
 def tasklists_id_tasks(request, tasklist_id):
-    tasks = Task.objects.filter(tasklist=tasklist_id).values()
-    return JsonResponse(list(tasks), safe=False)
+    if request.method == "GET":
+        tasks = Task.objects.filter(tasklist=tasklist_id).values()
+        return JsonResponse(list(tasks), safe=False)
+    else:
+        data = json.loads(request.body)
+
+        if data['tasklist'] == ' ':
+            return JsonResponse({'message': ' The field "tasklist" must have a value'}, status=400) 
+
+        #Tasklist.objects.create(**data)
+        tsk = Task.objects.filter(tasklist=tasklist_id).values()
+        tsk = list(tsk)
+        number_fields = len(tsk)
+        
+        print("Task fields.............", tsk)
+        print("Number os fields.............", number_fields)
+
+        """   
+        try: 
+            #Tasklist.objects.save() 
+            Tasklist.objects.create(**data)        
+        except:
+            return JsonResponse({'message': 'Error when saving'}, status=404) 
+        """
+        return JsonResponse({"message": 'Task created'}, status=201)
+
 
 # Tasklists
 # GET /tasklists/ - retorna todas as tasklists -  ✅
