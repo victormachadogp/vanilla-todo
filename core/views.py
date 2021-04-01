@@ -64,8 +64,8 @@ def tasklists_id_tasks(request, tasklist_id):
         except Tasklist.DoesNotExist: 
             return JsonResponse({'message': ' Invalid Number of tasklist.'}, status=404) 
         
-        task = Task(id=data['id'] , tasklist=tasklist, title=data['title'] , description=data['description'], completed=data['description'], watch=data['watch'], due_date=data['due_date'], due_time=data['due_time'], order=data['order'])
-                
+        task = Task(tasklist=tasklist, title=data['title'] , description=data['description'], completed=data['completed'], watch=data['watch'], due_date=data['due_date'], due_time=data['due_time'], order=data['order'])
+
         try: 
             task.save()  
         except Exception:
@@ -84,7 +84,7 @@ def tasklists_id_tasks(request, tasklist_id):
 
 # Tasks
 # GET /tasklists/:id/tasks/ - retorna todas as tasks de uma determinada tasklist ✅
-# POST /tasklists/:id/tasks/ - cria uma nova task
+# POST /tasklists/:id/tasks/ - cria uma nova task✅
 # PUT/PATCH? /tasks/:id/ - atualiza apenas uma task de uma determinada tasklist
 # DELETE /tasks/:id/ - deleta apenas uma task
 
