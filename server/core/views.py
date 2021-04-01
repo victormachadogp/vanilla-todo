@@ -5,7 +5,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
 from django.core import serializers
 from .models import Tasklist, Task
+from django.db.utils import IntegrityError
 import sys, json
+import logging
 
 
 # Create your views here.
@@ -47,25 +49,20 @@ def tasklists_id_tasks(request, tasklist_id):
         return JsonResponse(list(tasks), safe=False)
     else:
         data = json.loads(request.body)
-
-        if data['tasklist'] == ' ':
-            return JsonResponse({'message': ' The field "tasklist" must have a value'}, status=400) 
-
-        #Tasklist.objects.create(**data)
-        tsk = Task.objects.filter(tasklist=tasklist_id).values()
-        tsk = list(tsk)
-        number_fields = len(tsk)
         
-        print("Task fields.............", tsk)
-        print("Number os fields.............", number_fields)
-
-        """   
         try: 
-            #Tasklist.objects.save() 
-            Tasklist.objects.create(**data)        
-        except:
+            tasklist = Tasklist.objects.get(id=tasklist_id)    
+        except Tasklist.DoesNotExist: 
+            return JsonResponse({'message': ' Invalid Number of tasklist.'}, status=404) 
+        
+        task = Task(id=data['id'] , tasklist=tasklist, title=data['title'] , description=data['description'], completed=data['description'], watch=data['watch'], due_date=data['due_date'], due_time=data['due_time'], order=data['order'])
+                
+        try: 
+            task.save()  
+        except Exception:
+            logging.exception('Caught an error')
             return JsonResponse({'message': 'Error when saving'}, status=404) 
-        """
+        
         return JsonResponse({"message": 'Task created'}, status=201)
 
 
