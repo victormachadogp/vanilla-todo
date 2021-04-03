@@ -8,7 +8,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from .models import Tasklist, Task
 from django.db.utils import IntegrityError
-import sys, json
+import json
 import logging
 
 # Create your views here.
