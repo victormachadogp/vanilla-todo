@@ -1,5 +1,3 @@
-import json
-
 from django.db.utils import IntegrityError
 from django.forms.models import model_to_dict
 from django.http import HttpResponse, JsonResponse 
@@ -68,11 +66,25 @@ def tasklists_id_tasks(request, tasklist_id):
 
         try: 
             task.save()  
-        except Exception:
-            logging.exception('Caught an error')
+        except Exception as screen_error:
+            logging.error(screen_error)
             return JsonResponse({'message': 'Error when saving'}, status=404) 
         
         return JsonResponse({"message": 'Task created'}, status=201)
+
+
+@csrf_exempt
+@require_http_methods(["DELETE"])
+def tasks_id(request, task_id):
+    try:
+        task = Task.objects.get(id=task_id)
+        task.delete()
+    except Task.DoesNotExist:
+        return JsonResponse({'message': ' Invalid Number of task.'}, status=404) 
+
+    return JsonResponse({"message": 'Task deleted'}, status=201)
+
+    
 
 
 # Tasklists
@@ -86,7 +98,7 @@ def tasklists_id_tasks(request, tasklist_id):
 # GET /tasklists/:id/tasks/ - retorna todas as tasks de uma determinada tasklist ✅
 # POST /tasklists/:id/tasks/ - cria uma nova task✅
 # PUT/PATCH? /tasks/:id/ - atualiza apenas uma task de uma determinada tasklist
-# DELETE /tasks/:id/ - deleta apenas uma task
+# DELETE /tasks/:id/ - deleta apenas uma task✅
 
 
 
