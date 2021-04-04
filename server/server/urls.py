@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('tasklists/', views.tasklists),
     path('tasklists/<int:tasklist_id>/', views.tasklistsid),
-    path('tasklists/<int:tasklist_id>/tasks', views.tasklists_id_tasks)
+    path('tasklists/<int:tasklist_id>/tasks', views.tasklists_id_tasks),
+    path('tasks/<int:task_id>', views.tasks_id)
 ]
