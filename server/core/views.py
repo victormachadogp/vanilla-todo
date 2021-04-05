@@ -13,8 +13,8 @@ from .models import Tasklist, Task
 @require_http_methods(["GET","POST"]) 
 def tasklists(request):
     try: 
-        tasks = Tasklist.objects.all().values()  
-    except Tasklists.DoesNotExist: 
+        tasks = Tasklist.objects.all().values()
+    except Tasklist.DoesNotExist: 
         return JsonResponse({'message': 'Tasklists do not exist'}, status=status.HTTP_404_NOT_FOUND) 
     
     if request.method == "GET":
@@ -23,7 +23,7 @@ def tasklists(request):
     else:
         return HttpResponse("POST")    
 @csrf_exempt
-@require_http_methods(["PUT","DELETE","GET"])
+@require_http_methods(["PUT","GET"])
 def tasklistsid(request, tasklist_id):
     try: 
         tasklist = Tasklist.objects.get(id=tasklist_id)     
@@ -41,10 +41,19 @@ def tasklistsid(request, tasklist_id):
         except IntegrityError: 
             return HttpResponse('ERRO - Id é invalido', status=404) 
        
-        return HttpResponse('OK', status=200) 
-         
-    else: 
-        return HttpResponse("DELETE") 
+        return HttpResponse('OK', status=200)
+
+
+@csrf_exempt
+@require_http_methods(["DELETE"])
+def tasklist_delete(request, tasklist_id):
+    tasklist = Tasklist.objects.get(id=tasklist_id)
+    try:
+        tasklist.delete()
+        return JsonResponse({"message": 'Task deleted'}, status=200)
+    except Tasklist.DoesNotExist:
+        return JsonResponse({'message': 'Tasklist does not exist!'}, status=404)
+
 
 #TASKS
 @require_http_methods(["GET"]) 
