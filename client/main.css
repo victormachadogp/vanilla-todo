@@ -14,6 +14,7 @@ body {
   grid-template-rows: 100vh;
   max-width: 2000px;
   margin: 0 auto;
+  background-color: white;
 }
 
 .nav-menu {
@@ -26,6 +27,29 @@ body {
 .main-content {
   display: grid;
   grid-template-rows: 25%;
+}
+
+.image-background {
+  position: relative;
+}
+
+.title-box {
+  position: absolute;
+  bottom: 0px;
+  margin: 25px;
+  color: white;
+}
+
+.list-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  
+}
+
+.date {
+  margin-top: 0.3rem;
+  font-weight: 100;
+  
 }
 
 .top-image {
@@ -190,5 +214,14 @@ body {
   .nav-menu {
     display: block !important;
     padding-top: 35px;
+  }
+}
+
+@media (min-width: 2000px){
+  body {
+    background-image: url("/client/images/background-bigger-screen.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    
   }
 }
