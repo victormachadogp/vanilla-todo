@@ -60,7 +60,7 @@ def tasklists_id_tasks(request, tasklist_id):
         try: 
             tasklist = Tasklist.objects.get(id=tasklist_id)    
         except Tasklist.DoesNotExist: 
-            return JsonResponse({'message': ' Invalid Number of tasklist.'}, status=404) 
+            return JsonResponse({'message': ' Tasklist not found.'}, status=404) 
         
         task = Task(tasklist=tasklist, title=data['title'] , description=data['description'], completed=data['completed'], watch=data['watch'], due_date=data['due_date'], due_time=data['due_time'], order=data['order'])
 
@@ -68,7 +68,7 @@ def tasklists_id_tasks(request, tasklist_id):
             task.save()  
         except Exception as screen_error:
             logging.error(screen_error)
-            return JsonResponse({'message': 'Error when saving'}, status=404) 
+            return JsonResponse({'message': 'Error when saving'}, status=500) 
         
         return JsonResponse({"message": 'Task created'}, status=201)
 
@@ -80,9 +80,9 @@ def tasks_id(request, task_id):
         task = Task.objects.get(id=task_id)
         task.delete()
     except Task.DoesNotExist:
-        return JsonResponse({'message': ' Invalid Number of task.'}, status=404) 
+        return JsonResponse({'message': ' Task not found.'}, status=404) 
 
-    return JsonResponse({"message": 'Task deleted'}, status=201)
+    return JsonResponse({"message": 'Task deleted'}, status=200)
 
     
 
