@@ -183,12 +183,29 @@ body {
   display: none;
 }
 
+.switch-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  margin: 25px 35px;
+  
+}
+
+.lamp-icon {
+  width: 30px;
+}
+
 @media (max-width: 1024px) {
   .btn-nav {
     position: absolute;    
     margin: 35px 25px;
     cursor: pointer;
   
+  }
+
+  .switch-button {
+    margin: 25px 25px;
   }
 
   .menu-icon {
