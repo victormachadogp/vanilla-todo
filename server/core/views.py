@@ -1,5 +1,3 @@
-import json
-
 from django.db.utils import IntegrityError
 from django.forms.models import model_to_dict
 from django.http import HttpResponse, JsonResponse 
@@ -7,9 +5,12 @@ from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from .models import Tasklist, Task
+from django.db.utils import IntegrityError
+import json
+import logging
 
 # Create your views here.
-
+@csrf_exempt
 @require_http_methods(["GET","POST"]) 
 def tasklists(request):
     try: 
@@ -47,10 +48,44 @@ def tasklistsid(request, tasklist_id):
         return HttpResponse("DELETE") 
 
 #TASKS
-@require_http_methods(["GET"]) 
+@csrf_exempt
+@require_http_methods(["GET","POST"]) 
 def tasklists_id_tasks(request, tasklist_id):
-    tasks = Task.objects.filter(tasklist=tasklist_id).values()
-    return JsonResponse(list(tasks), safe=False)
+    if request.method == "GET":
+        tasks = Task.objects.filter(tasklist=tasklist_id).values()
+        return JsonResponse(list(tasks), safe=False)
+    else:
+        data = json.loads(request.body)
+        
+        try: 
+            tasklist = Tasklist.objects.get(id=tasklist_id)    
+        except Tasklist.DoesNotExist: 
+            return JsonResponse({'message': ' Tasklist not found.'}, status=404) 
+        
+        task = Task(tasklist=tasklist, title=data['title'] , description=data['description'], completed=data['completed'], watch=data['watch'], due_date=data['due_date'], due_time=data['due_time'], order=data['order'])
+
+        try: 
+            task.save()  
+        except Exception as screen_error:
+            logging.error(screen_error)
+            return JsonResponse({'message': 'Error when saving'}, status=500) 
+        
+        return JsonResponse({"message": 'Task created'}, status=201)
+
+
+@csrf_exempt
+@require_http_methods(["DELETE"])
+def tasks_id(request, task_id):
+    try:
+        task = Task.objects.get(id=task_id)
+        task.delete()
+    except Task.DoesNotExist:
+        return JsonResponse({'message': ' Task not found.'}, status=404) 
+
+    return JsonResponse({"message": 'Task deleted'}, status=200)
+
+    
+
 
 # Tasklists
 # GET /tasklists/ - retorna todas as tasklists -  ✅
@@ -61,9 +96,9 @@ def tasklists_id_tasks(request, tasklist_id):
 
 # Tasks
 # GET /tasklists/:id/tasks/ - retorna todas as tasks de uma determinada tasklist ✅
-# POST /tasklists/:id/tasks/ - cria uma nova task
+# POST /tasklists/:id/tasks/ - cria uma nova task✅
 # PUT/PATCH? /tasks/:id/ - atualiza apenas uma task de uma determinada tasklist
-# DELETE /tasks/:id/ - deleta apenas uma task
+# DELETE /tasks/:id/ - deleta apenas uma task✅
 
 
 
