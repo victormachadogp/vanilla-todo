@@ -179,14 +179,20 @@ body {
   display: none;
 }
 
+.menu-icon {
+  display: none;
+}
+
 @media (max-width: 1024px) {
   .btn-nav {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background-color: indianred;
-    margin: 10px;
+    position: absolute;    
+    margin: 35px 25px;
     cursor: pointer;
+  
+  }
+
+  .menu-icon {
+    display: block;
   }
 
   .container {
