@@ -8,9 +8,10 @@ class User(AbstractUser):
 # Create your models here.
 
 
-class Tasklist(models.Model):
-    id = models.IntegerField(primary_key=True)
-#    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+class Tasklist(models.Model):    
+#   id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
+#   user = models.ForeignKey(User, on_delete=models.CASCADE) 
     title = models.CharField(max_length=20)
     color = models.CharField(max_length=6)
     order = models.IntegerField()
@@ -19,7 +20,8 @@ class Tasklist(models.Model):
         return self.title
 
 class Task(models.Model):
-    id = models.IntegerField(primary_key=True)
+#   id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     tasklist = models.ForeignKey(Tasklist, on_delete=models.CASCADE)
     title = models.CharField(max_length=20)
     description = models.TextField(max_length=255)
