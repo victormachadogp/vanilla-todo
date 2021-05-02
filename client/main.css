@@ -14,6 +14,7 @@ body {
   grid-template-rows: 100vh;
   max-width: 2000px;
   margin: 0 auto;
+  background-color: white;
 }
 
 .nav-menu {
@@ -29,8 +30,33 @@ body {
 }
 
 .image-background {
-  background-color: #de842a;
+  position: relative;
 }
+
+.title-box {
+  position: absolute;
+  bottom: 0px;
+  margin: 25px;
+  color: white;
+}
+
+.list-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  
+}
+
+.date {
+  margin-top: 0.3rem;
+  font-weight: 100;
+  
+}
+
+.top-image {
+  width: 100%;
+  height: 100%; 
+  object-fit: cover; 
+}  
 
 /* NAV LEFT MENU */
 
@@ -153,13 +179,20 @@ body {
   display: none;
 }
 
+.menu-icon {
+  display: none;
+}
+
 @media (max-width: 1024px) {
   .btn-nav {
-    width: 30px;
-    height: 30px;
-    background-color: indianred;
-    margin: 10px;
+    position: absolute;    
+    margin: 35px 25px;
     cursor: pointer;
+  
+  }
+
+  .menu-icon {
+    display: block;
   }
 
   .container {
@@ -187,5 +220,14 @@ body {
   .nav-menu {
     display: block !important;
     padding-top: 35px;
+  }
+}
+
+@media (min-width: 2000px){
+  body {
+    background-image: url("/client/images/background-bigger-screen.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    
   }
 }
