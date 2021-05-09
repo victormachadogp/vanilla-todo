@@ -54,8 +54,9 @@ def tasklists(request):
             status=201
         )
 
+
 @csrf_exempt
-@require_http_methods(["PUT","DELETE","GET"])
+@require_http_methods(["GET", "PUT", "DELETE"])
 def tasklistsid(request, tasklist_id):
     try: 
         tasklist = Tasklist.objects.get(id=tasklist_id)     
@@ -74,8 +75,10 @@ def tasklistsid(request, tasklist_id):
             return HttpResponse('ERRO - Id é invalido', status=404) 
        
         return HttpResponse('OK', status=200) 
-    else: 
-        return HttpResponse("DELETE") 
+         
+    elif request.method == "DELETE":
+        tasklist.delete()
+        return JsonResponse({'message': 'Tasklist deleted with success!'}, status=204) 
 
 #TASKS
 @csrf_exempt
@@ -140,7 +143,7 @@ def task_id(request, task_id):
 # GET /tasklists/:id/ - retorna apenas uma tasklist ✅ 
 # POST /tasklists/ - cria uma nova tasklist ✅
 # PUT/PATCH /tasklists/:id/ - atualiza apenas uma tasklist ✅
-# DELETE /tasklists/:id/ - deleta apenas uma tasklist
+# DELETE /tasklists/:id/ - deleta apenas uma tasklist ✅
 
 # Tasks
 # GET /tasklists/:id/tasks/ - retorna todas as tasks de uma determinada tasklist ✅
