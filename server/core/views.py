@@ -1,28 +1,57 @@
-from django.db.utils import IntegrityError
-from django.forms.models import model_to_dict
-from django.http import HttpResponse, JsonResponse 
 from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
-from .models import Tasklist, Task
-from django.db.utils import IntegrityError
-import json
-import logging
+from django.forms.models import model_to_dict
+from django.core import serializers
+from .models import Tasklist
+import sys, json
 
-# Create your views here.
+
 @csrf_exempt
 @require_http_methods(["GET","POST"]) 
-def tasklists(request):
-    try: 
-        tasks = Tasklist.objects.all().values()  
-    except Tasklists.DoesNotExist: 
-        return JsonResponse({'message': 'Tasklists do not exist'}, status=status.HTTP_404_NOT_FOUND) 
-    
+def tasklists(request):    
     if request.method == "GET":
+        try:
+            tasks = Tasklist.objects.all().values()  
+        except Tasklist.DoesNotExist: 
+            return JsonResponse(
+                {'message': 'Tasklists do not exist'}, 
+                status = 404
+            ) 
+
         task_list = list(tasks)  
         return JsonResponse(task_list, safe=False)
+
     else:
-        return HttpResponse("POST") 
+
+        data = json.loads(request.body)
+
+        tsk = Tasklist()
+        if "title" in data: 
+            tsk.title = data['title']
+        if "color" in data:  
+            tsk.color = data['color']
+        if "order" in data:
+            tsk.order = data['order']  
+
+        if not tsk.title:
+            return JsonResponse(
+                {'message': 'Required Title field'},
+                status=422
+            )
+
+        try:
+            tsk.save()
+        except:
+            return JsonResponse(
+                {'message': sys.exc_info()[0]},
+                 status=500)
+       
+        return JsonResponse(
+            {'message': 'Created'},
+            status=201
+        )
 
 @csrf_exempt
 @require_http_methods(["PUT","DELETE","GET"])
@@ -98,7 +127,7 @@ def task_id(request, task_id):
 # Tasklists
 # GET /tasklists/ - retorna todas as tasklists -  ✅
 # GET /tasklists/:id/ - retorna apenas uma tasklist ✅ 
-# POST /tasklists/ - cria uma nova tasklist 
+# POST /tasklists/ - cria uma nova tasklist ✅
 # PUT/PATCH /tasklists/:id/ - atualiza apenas uma tasklist ✅
 # DELETE /tasklists/:id/ - deleta apenas uma tasklist
 
