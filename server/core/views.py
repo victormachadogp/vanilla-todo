@@ -4,8 +4,9 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.forms.models import model_to_dict
 from django.core import serializers
-from .models import Tasklist
-import sys, json
+from .models import Task, Tasklist
+from django.db.utils import IntegrityError
+import sys, json, logging
 
 
 @csrf_exempt
@@ -63,7 +64,7 @@ def tasklistsid(request, tasklist_id):
 
     if request.method == "GET":
         return JsonResponse(model_to_dict(tasklist), safe=False)
-    elif request.method == "PUT" or request.method == "PATCH":
+    elif request.method in ("PUT", "PATCH"):
         
         data = json.loads(request.body)
  
@@ -73,7 +74,6 @@ def tasklistsid(request, tasklist_id):
             return HttpResponse('ERRO - Id é invalido', status=404) 
        
         return HttpResponse('OK', status=200) 
-         
     else: 
         return HttpResponse("DELETE") 
 
@@ -104,7 +104,7 @@ def tasklists_id_tasks(request, tasklist_id):
 
 
 @csrf_exempt
-@require_http_methods(["GET", "DELETE"])
+@require_http_methods(["GET","PUT", "PATCH" ,"DELETE"])
 def task_id(request, task_id):
     if request.method == "GET":
         try:
@@ -114,14 +114,25 @@ def task_id(request, task_id):
             return JsonResponse({'message': ' Task not found.'}, status=404)    
         
         return JsonResponse(single_task, safe=False)      
-    else:    
-        try:
-            task = Task.objects.get(id=task_id)
-            task.delete()
-        except Task.DoesNotExist:
-            return JsonResponse({'message': ' Task not found.'}, status=404) 
+    elif request.method in ("PUT", "PATCH"):
 
-        return JsonResponse({"message": 'Task deleted'}, status=200)      
+        data = json.loads(request.body)
+
+        try:
+            Task.objects.filter(id=task_id).update(**data)
+        except IntegrityError:
+            return JsonResponse({'message': ' Task not found.'}, status=404)
+
+        return JsonResponse({"message": 'Task updated'}, status=200)
+        
+    try:
+        task = Task.objects.get(id=task_id)
+        task.delete()
+    except Task.DoesNotExist:
+        return JsonResponse({'message': ' Task not found.'}, status=404) 
+
+    return JsonResponse({"message": 'Task deleted'}, status=200) 
+         
 
 
 # Tasklists
