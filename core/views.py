@@ -77,7 +77,7 @@ def tasklistsid(request, tasklist_id):
          
     elif request.method == "DELETE":
         tasklist.delete()
-        return JsonResponse({'message': 'Tasklist foi deletada com sucesso!'}, status=204) 
+        return JsonResponse({'message': 'Tasklist deleted with success!'}, status=204) 
 
 #TASKS
 @csrf_exempt
