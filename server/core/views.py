@@ -149,7 +149,7 @@ def task_id(request, task_id):
 # GET /tasklists/:id/tasks/ - retorna todas as tasks de uma determinada tasklist ✅
 # GET /tasklists/:id/tasks/:id - retorna apenas uma task dentre as tasks de uma determinada tasklist 
 # POST /tasklists/:id/tasks/ - cria uma nova task✅
-# PUT/PATCH? /tasks/:id/ - atualiza apenas uma task de uma determinada tasklist 
+# PUT/PATCH? /tasks/:id/ - atualiza apenas uma task de uma determinada tasklist
 # DELETE /tasks/:id/ - deleta apenas uma task✅
 
 
